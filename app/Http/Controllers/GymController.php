@@ -273,9 +273,15 @@ class GymController extends Controller
 
         $recompensas = Recompensa::all();
 
+        $canjeos = $user->canjeos()
+            ->with('recompensa')
+            ->orderByDesc('fecha')
+            ->get();
+
         return view('recompensas', [
             'recompensas' => $recompensas,
             'fitcoinsTotales' => $fitcoinsTotales,
+            'canjeos' => $canjeos,
         ]);
     }
 

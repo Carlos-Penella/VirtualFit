@@ -55,7 +55,6 @@ class AuthController extends Controller
         $data = $request->validate([
             'nombre' => ['required', 'string', 'max:100'],
             'correo' => ['required', 'email', 'max:150', 'unique:usuarios,correo'],
-            'tipo_usuario' => ['required', 'in:freemium,premium,premiumFit,ENTRENADOR,ADMIN'],
             'contraseña' => ['required', 'string', 'min:6', 'confirmed'],
         ]);
 
@@ -63,20 +62,18 @@ class AuthController extends Controller
             'nombre' => $data['nombre'],
             'correo' => $data['correo'],
             'password' => bcrypt($data['contraseña']),
-            'tipo_usuario' => $data['tipo_usuario'],
+            'tipo_usuario' => 'freemium',
             'fecha_registro' => now(),
         ];
 
-        // Asignar entrenador automáticamente solo a usuarios no entrenadores/admin
-        if (! in_array($data['tipo_usuario'], ['ENTRENADOR', 'ADMIN'], true)) {
-            $entrenador = Usuario::where('tipo_usuario', 'ENTRENADOR')
-                ->withCount('clientes')
-                ->orderBy('clientes_count', 'asc')
-                ->first();
+        // Asignar entrenador automáticamente a usuarios registrados (freemium)
+        $entrenador = Usuario::where('tipo_usuario', 'ENTRENADOR')
+            ->withCount('clientes')
+            ->orderBy('clientes_count', 'asc')
+            ->first();
 
-            if ($entrenador) {
-                $userData['entrenador_id'] = $entrenador->id;
-            }
+        if ($entrenador) {
+            $userData['entrenador_id'] = $entrenador->id;
         }
 
         $user = Usuario::create($userData);

@@ -14,6 +14,8 @@ class VideoEjercicioDiario extends Model
         'fecha',
         'ruta_video',
         'comentario',
+        'recompensado',
+        'fitcoins_otorgados',
     ];
 
     public function usuario()

@@ -38,11 +38,6 @@
                 <button class="btn" type="submit" style="width:100%;background:#262b3f;box-shadow:none;">No recuerdo mi contraseña</button>
             </form>
 
-            <p class="muted" style="margin-top:1rem;font-size:.9rem;">
-                Si eres <strong>entrenador</strong>, inicia sesión con tu correo de entrenador
-                para acceder a la gestión de clases y consultas de usuarios.
-            </p>
-
             <div class="auth-links">
                 <p>¿No tienes cuenta? <a href="{{ route('register') }}">Crear cuenta</a></p>
                 <p>¿Eres entrenador? <a href="{{ route('login.trainer') }}">Acceso entrenadores</a></p>

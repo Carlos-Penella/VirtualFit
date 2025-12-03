@@ -13,15 +13,14 @@ class Usuario extends Authenticatable
 {
     // Laravel manejará automáticamente created_at y updated_at
     protected $table = 'usuarios';
+
     protected $fillable = [
         'nombre',
         'correo',
         'password',
         'fecha_registro',
         'tipo_usuario',
-        'foto_entrenador',
-        'created_at',
-        'updated_at'
+        'foto_entrenador'
     ];
     protected $hidden = ['password'];
 

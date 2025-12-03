@@ -9,6 +9,7 @@ use App\Models\Usuario;
 use App\Models\Membresia;
 use App\Models\PasswordResetRequest;
 use App\Models\VideoEjercicioDiario;
+use Illuminate\Support\Facades\Hash;
 
 class TrainerPanelController extends Controller
 {
@@ -86,6 +87,53 @@ class TrainerPanelController extends Controller
             ->paginate(15);
 
         return view('trainer_videos_diarios', compact('videos'));
+    }
+
+    public function recompensarVideo(Request $request, VideoEjercicioDiario $video)
+    {
+        $entrenador = Auth::user();
+        if (! $entrenador || ! in_array($entrenador->tipo_usuario, ['ENTRENADOR', 'ADMIN'], true)) {
+            abort(403);
+        }
+
+        // Comprobar que el vídeo pertenece a un usuario de este entrenador (si no es ADMIN)
+        if ($entrenador->tipo_usuario === 'ENTRENADOR') {
+            if (! $video->usuario || $video->usuario->entrenador_id !== $entrenador->id) {
+                abort(403);
+            }
+        }
+
+        // Evitar recompensar dos veces el mismo vídeo
+        if ($video->recompensado) {
+            return back()->with('status', 'Este vídeo ya ha sido recompensado con ' . ($video->fitcoins_otorgados ?? 0) . ' Fitcoins.');
+        }
+
+        $usuario = $video->usuario;
+        if (! $usuario) {
+            return back()->with('status', 'No se ha podido identificar al usuario de este vídeo.');
+        }
+
+        // Calcular Fitcoins de este ejercicio diario (misma lógica determinista que en GymController)
+        $rewards = [5, 10, 20];
+        $fecha = $video->fecha;
+        $hash = crc32($video->ejercicio_id . $fecha);
+        $fitcoins = $rewards[$hash % count($rewards)];
+
+        // Actualizar racha del usuario
+        $racha = Racha::firstOrCreate(
+            ['usuario_id' => $usuario->id],
+            ['dias_consecutivos' => 0, 'ultima_actividad' => null, 'fitcoins_ganados' => 0]
+        );
+
+        $racha->fitcoins_ganados += $fitcoins;
+        $racha->save();
+
+        // Marcar vídeo como recompensado
+        $video->recompensado = true;
+        $video->fitcoins_otorgados = $fitcoins;
+        $video->save();
+
+        return back()->with('status', 'Se han otorgado ' . $fitcoins . ' Fitcoins al usuario ' . $usuario->nombre . ' por este ejercicio.');
     }
 
     public function chatUsuario(Usuario $usuario)
@@ -197,5 +245,30 @@ class TrainerPanelController extends Controller
 
         return redirect()->route('admin.usuarios')
             ->with('status', 'Contraseña actualizada para el usuario: ' . $usuario->correo);
+    }
+
+    public function crearEntrenador(Request $request)
+    {
+        $admin = Auth::user();
+        if (! $admin || $admin->tipo_usuario !== 'ADMIN') {
+            abort(403);
+        }
+
+        $data = $request->validate([
+            'nombre' => ['required', 'string', 'max:255'],
+            'correo' => ['required', 'email', 'max:255', 'unique:usuarios,correo'],
+            'password' => ['required', 'string', 'min:6', 'confirmed'],
+        ]);
+
+        $usuario = new Usuario();
+        $usuario->nombre = $data['nombre'];
+        $usuario->correo = $data['correo'];
+        $usuario->password = Hash::make($data['password']);
+        $usuario->tipo_usuario = 'ENTRENADOR';
+        $usuario->fecha_registro = now();
+        $usuario->save();
+
+        return redirect()->route('admin.usuarios')
+            ->with('status', 'Entrenador creado correctamente: ' . $usuario->correo);
     }
 }

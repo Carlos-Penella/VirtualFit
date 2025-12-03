@@ -46,7 +46,8 @@ Route::view('/privacidad', 'privacidad')->name('privacidad');
 
 // Perfil de usuario
 Route::get('/profile', function () {
-	return view('profile');
+	$user = auth()->user()->load(['canjeos.recompensa']);
+	return view('profile', compact('user'));
 })->middleware('auth')->name('profile');
 
 // Actualizar foto de entrenador (solo entrenadores)
@@ -83,6 +84,10 @@ Route::get('/trainer/videos-diarios', [TrainerPanelController::class, 'videosEje
 	->middleware('auth')
 	->name('trainer.videos.diarios');
 
+Route::post('/trainer/videos-diarios/{video}/recompensar', [TrainerPanelController::class, 'recompensarVideo'])
+	->middleware('auth')
+	->name('trainer.videos.recompensar');
+
 // Conversación con un usuario concreto (entrenador)
 Route::get('/trainer/chat/{usuario}', [TrainerPanelController::class, 'chatUsuario'])
 	->middleware('auth')
@@ -103,6 +108,11 @@ Route::post('/admin/usuarios/{usuario}/cancelar', [TrainerPanelController::class
 Route::post('/admin/usuarios/{usuario}/password', [TrainerPanelController::class, 'cambiarPassword'])
 	->middleware('auth')
 	->name('admin.usuarios.password');
+
+// Crear entrenador desde el panel de administración (solo ADMIN)
+Route::post('/admin/usuarios/entrenador', [TrainerPanelController::class, 'crearEntrenador'])
+	->middleware('auth')
+	->name('admin.usuarios.entrenador');
 
 // Gestión de clases (solo entrenadores/admin)
 Route::get('/classes/manage/create', [ClassManagementController::class, 'create'])->name('classes.create')->middleware('auth');

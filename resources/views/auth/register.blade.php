@@ -20,15 +20,6 @@
             <label>Email
                 <input type="email" name="correo" value="{{ old('correo') }}" required>
             </label>
-            <label>Tipo de usuario
-                <select name="tipo_usuario" required>
-                    <option value="freemium" {{ old('tipo_usuario') == 'freemium' ? 'selected' : '' }}>Freemium</option>
-                    <option value="premium" {{ old('tipo_usuario') == 'premium' ? 'selected' : '' }}>Premium</option>
-                    <option value="premiumFit" {{ old('tipo_usuario') == 'premiumFit' ? 'selected' : '' }}>Premium Fit</option>
-                    <option value="ENTRENADOR" {{ old('tipo_usuario') == 'ENTRENADOR' ? 'selected' : '' }}>Entrenador</option>
-                    <option value="ADMIN" {{ old('tipo_usuario') == 'ADMIN' ? 'selected' : '' }}>Admin</option>
-                </select>
-            </label>
             <label>Contraseña
                 <input type="password" name="contraseña" required>
             </label>

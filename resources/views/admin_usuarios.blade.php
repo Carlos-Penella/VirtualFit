@@ -9,6 +9,28 @@
         <p class="alert">{{ session('status') }}</p>
     @endif
 
+    <div class="card" style="margin-bottom:1.5rem;">
+        <h3>Crear nuevo entrenador</h3>
+        <form method="post" action="{{ route('admin.usuarios.entrenador') }}">
+            @csrf
+            <div style="display:flex;flex-wrap:wrap;gap:1rem;">
+                <label style="flex:1 1 180px;">Nombre
+                    <input type="text" name="nombre" required>
+                </label>
+                <label style="flex:1 1 220px;">Correo
+                    <input type="email" name="correo" required>
+                </label>
+                <label style="flex:1 1 160px;">Contraseña
+                    <input type="password" name="password" required>
+                </label>
+                <label style="flex:1 1 160px;">Confirmar contraseña
+                    <input type="password" name="password_confirmation" required>
+                </label>
+            </div>
+            <button type="submit" class="btn" style="margin-top:1rem;">Crear entrenador</button>
+        </form>
+    </div>
+
     @if(!empty($resetRequests) && $resetRequests->count())
         <div class="card" style="margin-bottom:1.5rem;">
             <h3>Solicitudes de cambio de contraseña</h3>

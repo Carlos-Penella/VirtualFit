@@ -14,6 +14,24 @@
         <p class="muted">Gana Fitcoins completando tu rutina diaria y asistiendo a clases.</p>
     </div>
 
+    @if(isset($canjeos) && $canjeos->isNotEmpty())
+        <div class="card" style="max-width:700px;margin-bottom:1.5rem;">
+            <h3>Mis recompensas canjeadas</h3>
+            <ul>
+                @foreach($canjeos as $c)
+                    <li>
+                        <strong>{{ $c->recompensa->nombre ?? 'Recompensa' }}</strong>
+                        &mdash;
+                        {{ $c->fecha ? \Carbon\Carbon::parse($c->fecha)->format('d/m/Y H:i') : '' }}
+                        @if(!empty($c->recompensa) && !is_null($c->recompensa->costo_fitcoins))
+                            <span class="muted">(Coste: {{ $c->recompensa->costo_fitcoins }} Fitcoins)</span>
+                        @endif
+                    </li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
+
     @if($recompensas->isEmpty())
         <p class="muted">Todavía no hay recompensas configuradas.</p>
     @else

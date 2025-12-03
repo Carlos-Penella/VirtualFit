@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 class RegistroEjercicio extends Model
 {
     protected $table = 'registros_ejercicio';
+    public $timestamps = false;
     protected $fillable = [
         'usuario_id', 'ejercicio_id', 'fecha', 'valor', 'fitcoins'
     ];

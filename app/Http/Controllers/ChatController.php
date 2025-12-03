@@ -32,6 +32,10 @@ class ChatController extends Controller
                 'mensaje' => $message,
                 'entrenador_id' => $trainerId,
             ]);
+
+            return response()->json([
+                'reply' => 'Esperando mensaje del entrenador',
+            ]);
         }
 
         $reply = $this->generateReply($lower, $userType, $mode);

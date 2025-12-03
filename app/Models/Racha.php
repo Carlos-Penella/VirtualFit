@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 class Racha extends Model
 {
     protected $table = 'rachas';
+    public $timestamps = false;
     protected $fillable = [
         'usuario_id', 'dias_consecutivos', 'ultima_actividad', 'fitcoins_ganados'
     ];

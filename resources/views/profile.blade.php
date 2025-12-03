@@ -5,12 +5,27 @@
 @section('content')
     <div class="card" style="max-width:600px;margin:2rem auto;">
         <h2>Mi perfil</h2>
-        <p><strong>Nombre:</strong> {{ auth()->user()->nombre }}</p>
-        <p><strong>Correo:</strong> {{ auth()->user()->correo }}</p>
-        <p><strong>Tipo de usuario:</strong> {{ auth()->user()->tipo_usuario }}</p>
-        <p><strong>Fecha de registro:</strong> {{ auth()->user()->fecha_registro }}</p>
+        <p><strong>Nombre:</strong> {{ $user->nombre }}</p>
+        <p><strong>Correo:</strong> {{ $user->correo }}</p>
+        <p><strong>Tipo de usuario:</strong> {{ $user->tipo_usuario }}</p>
+        <p><strong>Fecha de registro:</strong> {{ $user->fecha_registro }}</p>
 
-        @if(auth()->user()->tipo_usuario === 'ENTRENADOR')
+        @if($user->canjeos && $user->canjeos->isNotEmpty())
+            <hr>
+            <h3>Mis recompensas canjeadas</h3>
+            <ul>
+                @foreach($user->canjeos as $c)
+                    <li>
+                        <strong>{{ optional($c->recompensa)->nombre ?? 'Recompensa' }}</strong>
+                        @if($c->fecha)
+                            &mdash; {{ \Carbon\Carbon::parse($c->fecha)->format('d/m/Y H:i') }}
+                        @endif
+                    </li>
+                @endforeach
+            </ul>
+        @endif
+
+        @if($user->tipo_usuario === 'ENTRENADOR')
             <hr>
             <h3>Foto de entrenador</h3>
             @if(auth()->user()->foto_entrenador)

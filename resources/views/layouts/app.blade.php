@@ -20,6 +20,7 @@
                     @auth
                         <a href="{{ route('exercises.all') }}">Ejercicios</a>
                         <a href="{{ route('calendar') }}">Calendario</a>
+                        <a href="{{ route('recompensas') }}">Recompensas</a>
                         @if(auth()->user()->tipo_usuario === 'ADMIN')
                             <a href="{{ route('admin.usuarios') }}">Usuarios</a>
                         @endif
@@ -157,7 +158,6 @@ document.addEventListener('DOMContentLoaded', function () {
             if (modeSelect.value === 'trainer') {
                 modeLabel.textContent = 'Chat con entrenador';
                 if (isPremium) {
-                    appendMessage('bot', 'Estás en el modo Entrenador. Cargando tus consultas y respuestas anteriores...');
                     loadConversation('trainer');
                 } else {
                     appendMessage('bot', 'El modo Entrenador es solo para usuarios Premium o Premium Fit. Si quieres usarlo, pulsa en "Mejorar mi plan" en la página de planes.');

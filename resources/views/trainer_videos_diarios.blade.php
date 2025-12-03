@@ -30,6 +30,17 @@
                         <source src="{{ asset('storage/'.$video->ruta_video) }}" type="video/mp4">
                         Tu navegador no soporta la reproducción de vídeo.
                     </video>
+
+                    <div style="margin-top:.75rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:.5rem;">
+                        @if($video->recompensado)
+                            <span class="badge">Recompensa otorgada: {{ $video->fitcoins_otorgados ?? 0 }} Fitcoins</span>
+                        @else
+                            <form method="post" action="{{ route('trainer.videos.recompensar', $video) }}">
+                                @csrf
+                                <button type="submit" class="btn">Dar recompensa</button>
+                            </form>
+                        @endif
+                    </div>
                 </div>
             @endforeach
         </div>

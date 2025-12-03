@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 class Canjeo extends Model
 {
     protected $table = 'canjeos';
+    public $timestamps = false;
     protected $fillable = [
         'usuario_id', 'recompensa_id', 'fecha'
     ];
