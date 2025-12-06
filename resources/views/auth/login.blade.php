@@ -10,8 +10,8 @@
         </div>
 
         <div class="auth-card card">
-            <h2 style="margin-top:0;display:flex;align-items:center;gap:.5rem;">
-                <span style="display:inline-flex;width:28px;height:28px;border-radius:999px;align-items:center;justify-content:center;background:var(--accent-soft);color:var(--accent);">🔒</span>
+            <h2 style="margin-top:0;display:flex;align-items:center;gap:.5rem;color:var(--brand-primary);">
+                <span style="display:inline-flex;width:32px;height:32px;border-radius:50%;align-items:center;justify-content:center;background:rgba(44,122,123,0.1);font-size:1.2rem;">🔒</span>
                 Iniciar sesión
             </h2>
 
@@ -21,21 +21,23 @@
                 </div>
             @endif
 
-            <form method="post" action="{{ route('login.post') }}" class="auth-form">
+            <form method="post" action="{{ route('login.post') }}" class="auth-form" style="margin-top:1.5rem;">
                 @csrf
-                <label>Correo
+                <label>
+                    Correo electrónico
                     <input type="email" name="correo" value="{{ old('correo') }}" required placeholder="tu@email.com">
                 </label>
-                <label>Contraseña
+                <label>
+                    Contraseña
                     <input type="password" name="password" required placeholder="••••••••">
                 </label>
-                <button class="btn" type="submit" style="width:100%;margin-top:.5rem;">Entrar</button>
+                <button class="btn" type="submit" style="width:100%;margin-top:.75rem;">Entrar</button>
             </form>
 
-            <form method="post" action="{{ route('password.request-reset') }}" class="auth-form" style="margin-top:1rem;">
+            <form method="post" action="{{ route('password.request-reset') }}" style="margin-top:1rem;">
                 @csrf
                 <input type="hidden" name="correo" value="{{ old('correo') }}">
-                <button class="btn" type="submit" style="width:100%;background:#262b3f;box-shadow:none;">No recuerdo mi contraseña</button>
+                <button class="btn-secondary" type="submit" style="width:100%;padding:.65rem;">¿Olvidaste tu contraseña?</button>
             </form>
 
             <div class="auth-links">

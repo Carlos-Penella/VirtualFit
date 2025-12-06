@@ -3,31 +3,42 @@
 @section('title','Registrarse')
 
 @section('content')
-    <div class="card" style="max-width:420px;margin:2rem auto;">
-        <h2>Registro de usuario</h2>
+    <div class="card" style="max-width:480px;margin:3rem auto;">
+        <h2 style="margin-top:0;color:var(--brand-primary);display:flex;align-items:center;gap:.5rem;">
+            <span style="display:inline-flex;width:32px;height:32px;border-radius:50%;align-items:center;justify-content:center;background:rgba(44,122,123,0.1);font-size:1.2rem;">✨</span>
+            Crear cuenta
+        </h2>
+        <p class="muted" style="margin-top:0;">Únete a VirtualFit y empieza tu transformación</p>
 
         @if($errors->any())
-            <div class="card" style="background:#fee;border-color:#fdd;color:#600;padding:.6rem;margin-bottom:1rem;">
+            <div class="auth-error">
                 {{ $errors->first() }}
             </div>
         @endif
 
-        <form method="post" action="{{ route('register.post') }}">
+        <form method="post" action="{{ route('register.post') }}" class="auth-form" style="margin-top:1.5rem;">
             @csrf
-            <label>Nombre
-                <input type="text" name="nombre" value="{{ old('nombre') }}" required>
+            <label>
+                Nombre completo
+                <input type="text" name="nombre" value="{{ old('nombre') }}" required placeholder="Tu nombre">
             </label>
-            <label>Email
-                <input type="email" name="correo" value="{{ old('correo') }}" required>
+            <label>
+                Correo electrónico
+                <input type="email" name="correo" value="{{ old('correo') }}" required placeholder="tu@email.com">
             </label>
-            <label>Contraseña
-                <input type="password" name="contraseña" required>
+            <label>
+                Contraseña
+                <input type="password" name="contraseña" required placeholder="Mínimo 8 caracteres">
             </label>
-            <label>Confirmar contraseña
-                <input type="password" name="contraseña_confirmation" required>
+            <label>
+                Confirmar contraseña
+                <input type="password" name="contraseña_confirmation" required placeholder="Repite tu contraseña">
             </label>
-            <button class="btn" type="submit">Registrarse</button>
+            <button class="btn" type="submit" style="width:100%;margin-top:.75rem;">Crear cuenta</button>
         </form>
+        
+        <div class="auth-links">
+            <p>¿Ya tienes cuenta? <a href="{{ route('login') }}">Inicia sesión</a></p>
+        </div>
     </div>
-    <p style="text-align:center;color:var(--muted);">¿Ya tienes cuenta? <a href="{{ route('login') }}">Inicia sesión</a></p>
 @endsection

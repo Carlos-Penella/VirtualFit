@@ -62,35 +62,57 @@ class GymController extends Controller
 
     public function classes()
     {
-        $classes = [
-            [
-                'title' => 'Yoga',
-                'time' => '08:00',
-                'desc' => 'Vinyasa flow para todos los niveles.',
-                'image' => asset('images/clases/yoga.jpg'),
-            ],
-            [
-                'title' => 'Crossfit',
-                'time' => '10:00',
-                'desc' => 'Entrenamiento funcional e intenso.',
-                'image' => asset('images/clases/crossfit.jpg'),
-            ],
-            [
-                'title' => 'Spinning',
-                'time' => '18:00',
-                'desc' => 'Clase de ciclismo indoor para quemar calorías.',
-                'image' => asset('images/clases/spinning.jpg'),
-            ],
-        ];
+        // Obtener clases únicas por nombre desde la base de datos
+        $clasesDB = \App\Models\Clase::selectRaw('nombre, descripcion, imagen, MIN(horario) as time')
+            ->groupBy('nombre', 'descripcion', 'imagen')
+            ->get();
+        
+        $classes = $clasesDB->map(function($clase) {
+            return [
+                'title' => $clase->nombre,
+                'time' => $clase->time ?? 'Por confirmar',
+                'desc' => $clase->descripcion ?? '',
+                'image' => $clase->imagen ? asset($clase->imagen) : null,
+            ];
+        })->toArray();
+        
+        // Si no hay clases en BD, mostrar ejemplos
+        if (empty($classes)) {
+            $classes = [
+                [
+                    'title' => 'Yoga',
+                    'time' => '08:00',
+                    'desc' => 'Vinyasa flow para todos los niveles.',
+                    'image' => asset('images/yoga.jpg'),
+                ],
+                [
+                    'title' => 'Crossfit',
+                    'time' => '10:00',
+                    'desc' => 'Entrenamiento funcional e intenso.',
+                    'image' => 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=400&h=300&fit=crop',
+                ],
+                [
+                    'title' => 'Spinning',
+                    'time' => '18:00',
+                    'desc' => 'Clase de ciclismo indoor para quemar calorías.',
+                    'image' => 'https://images.unsplash.com/photo-1571902943202-507ec2618e8f?w=400&h=300&fit=crop',
+                ],
+            ];
+        }
 
+        $trainerPhotos = ['images/trainers/Entrenador1.jpg', 'images/trainers/Entrenador2.jpg', 'images/trainers/Entradora1.jpg'];
+        
         $trainers = \App\Models\Usuario::where('tipo_usuario', 'ENTRENADOR')
             ->get()
-            ->map(function ($u) {
+            ->map(function ($u, $index) use ($trainerPhotos) {
+                // Si el entrenador tiene foto propia, usarla; si no, asignar una del array
+                $photo = $u->foto_entrenador ? asset($u->foto_entrenador) : asset($trainerPhotos[$index % count($trainerPhotos)]);
+                
                 return [
                     'name' => $u->nombre,
                     'specialty' => 'Entrenador VirtualFit',
                     'bio' => $u->correo,
-                    'photo' => $u->foto_entrenador ? asset($u->foto_entrenador) : null,
+                    'photo' => $photo,
                 ];
             });
 
@@ -99,14 +121,19 @@ class GymController extends Controller
 
     public function trainers()
     {
+        $trainerPhotos = ['images/trainers/Entrenador1.jpg', 'images/trainers/Entrenador2.jpg', 'images/trainers/Entradora1.jpg'];
+        
         $trainers = \App\Models\Usuario::where('tipo_usuario', 'ENTRENADOR')
             ->get()
-            ->map(function ($u) {
+            ->map(function ($u, $index) use ($trainerPhotos) {
+                // Si el entrenador tiene foto propia, usarla; si no, asignar una del array
+                $photo = $u->foto_entrenador ? asset($u->foto_entrenador) : asset($trainerPhotos[$index % count($trainerPhotos)]);
+                
                 return [
                     'name' => $u->nombre,
                     'specialty' => 'Entrenador VirtualFit',
                     'bio' => $u->correo,
-                    'photo' => $u->foto_entrenador ? asset($u->foto_entrenador) : null,
+                    'photo' => $photo,
                 ];
             });
 

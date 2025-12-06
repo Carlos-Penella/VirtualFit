@@ -8,7 +8,7 @@ class Clase extends Model
     public $timestamps = false;
     protected $table = 'clases';
     protected $fillable = [
-        'nombre', 'descripcion', 'fecha', 'hora_inicio','horario', 'hora_fin',  'aforo_max','entrenador_id'
+        'nombre', 'descripcion', 'imagen', 'fecha', 'hora_inicio','horario', 'hora_fin',  'aforo_max','entrenador_id'
     ];
     public function entrenador() {
         return $this->belongsTo(Usuario::class, 'entrenador_id');

@@ -5,13 +5,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>VirtualFit - @yield('title', 'Inicio')</title>
     <link rel="stylesheet" href="{{ asset('css/gym.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/brand.css') }}">
 </head>
 <body>
     <header class="site-header">
         <div class="container" style="display:flex;align-items:center;justify-content:space-between;gap:2rem;">
             <!-- Zona izquierda: logo + navegación principal -->
             <div style="display:flex;align-items:center;gap:2rem;flex:1;">
-                <h1 class="brand"><a href="{{ route('home') }}">VirtualFit</a></h1>
+                <a href="{{ route('home') }}" class="brand logo-link" aria-label="Inicio VirtualFit">
+                    @if(file_exists(public_path('images/virtualfit-logo.png')))
+                        <img src="{{ asset('images/virtualfit-logo.png') }}" alt="VirtualFit" class="brand-logo">
+                    @else
+                        <span style="font-weight:800;font-size:1.3rem;color:var(--brand-primary);letter-spacing:0.05em;">VirtualFit</span>
+                    @endif
+                </a>
                 <nav class="main-nav" style="display:flex;align-items:center;gap:1.2rem;">
                     <a href="{{ route('home') }}">Inicio</a>
                     <a href="{{ route('classes') }}">Clases</a>

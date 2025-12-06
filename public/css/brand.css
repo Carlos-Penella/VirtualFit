@@ -1,0 +1,266 @@
+:root{
+  /* Paleta equilibrada: fitness familiar, motivadora y profesional */
+  --primary:#2c7a7b;       /* Teal profesional y confiable */
+  --primary-light:#38a1a3; /* Teal más claro */
+  --secondary:#48bb78;     /* Verde saludable y fresco */
+  --accent:#ed8936;        /* Naranja cálido para CTAs */
+  --dark:#1a365d;          /* Navy para textos importantes */
+  
+  --bg:#f7fafc;            /* Fondo claro y limpio */
+  --card-bg:#ffffff;       /* Tarjetas en blanco puro */
+  --text:#2d3748;          /* Texto principal legible */
+  --text-light:#718096;    /* Texto secundario */
+  
+  /* Mapeo de roles */
+  --brand-primary:var(--primary);
+  --brand-primary-dark:#234e52;
+  --brand-secondary:var(--secondary);
+  --brand-accent:var(--accent);
+}
+
+/* Header limpio con fondo blanco */
+.site-header{
+  background: var(--card-bg);
+  color: var(--text);
+  border-bottom: 2px solid var(--brand-primary);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+.site-header a{ color: var(--text); }
+.site-header .main-nav a{ 
+  color: var(--text); 
+  opacity: .85; 
+  text-decoration: none; 
+  font-weight: 500;
+  transition: all 0.2s ease;
+  position: relative;
+  padding-bottom: 2px;
+}
+.site-header .main-nav a::after{
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 0;
+  height: 2px;
+  background: var(--brand-primary);
+  transition: width 0.2s ease;
+}
+.site-header .main-nav a:hover{ 
+  color: var(--brand-primary); 
+  opacity: 1;
+}
+.site-header .main-nav a:hover::after{
+  width: 100%;
+}
+
+/* Brand logo sizing */
+.brand-logo{ height: 46px; width: auto; display:block; }
+.logo-link{ display:flex; align-items:center; }
+
+/* Accent chips for racha/fitcoins */
+.site-header span[style*='\uD83D\uDCB0'],
+.site-header span[style*='\uD83D\uDCC5']{ 
+  color: var(--brand-accent) !important; 
+  font-weight: 600;
+}
+
+/* Buttons */
+.btn, .btn-login{
+  background: var(--brand-primary);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: .65rem 1.2rem;
+  font-weight: 600;
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+.btn:hover, .btn-login:hover{ 
+  background: var(--brand-primary-dark); 
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(44,122,123,0.25);
+}
+
+/* Variantes */
+.btn-secondary{ 
+  background: var(--brand-secondary); 
+  color: white;
+  border: none;
+}
+.btn-secondary:hover{ 
+  background: #38a169;
+  box-shadow: 0 4px 12px rgba(72,187,120,0.25);
+}
+.btn-accent{ 
+  background: var(--brand-accent);
+  color: white;
+  border: none;
+}
+.btn-accent:hover{ 
+  background: #dd6b20;
+  box-shadow: 0 4px 12px rgba(237,137,54,0.25);
+}
+
+/* Cards and links */
+.card{
+  border: 1px solid #e2e8f0;
+  background: var(--card-bg);
+  color: var(--text);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+  border-radius: 12px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.card:hover{
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+}
+.card h3{ 
+  color: var(--brand-primary); 
+  margin-bottom: 0.5rem;
+  font-weight: 700;
+}
+.card p, .card li{ color: var(--text); }
+.card .muted{ color: var(--text-light); }
+.card a{ 
+  color: var(--brand-primary); 
+  text-decoration: none;
+  position: relative;
+  padding-bottom: 2px;
+}
+.card a::after{
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 0;
+  height: 2px;
+  background: var(--brand-primary);
+  transition: width 0.2s ease;
+}
+.card a:hover{
+  color: var(--brand-primary-dark);
+}
+.card a:hover::after{
+  width: 100%;
+}
+
+/* Hero block con acento visual */
+.hero{
+  background: linear-gradient(135deg, var(--brand-primary) 0%, var(--primary-light) 100%);
+  color: #ffffff;
+  border-radius: 16px;
+  padding: 2.5rem;
+  box-shadow: 0 8px 24px rgba(44,122,123,0.2);
+}
+.hero h2, .hero h3, .hero p{ color: #ffffff; }
+
+/* Footer */
+.site-footer{ 
+  border-top: 2px solid var(--brand-primary); 
+  color: var(--text-light); 
+  background: var(--card-bg);
+  padding: 2rem 0;
+}
+.site-footer a{ 
+  color: var(--brand-primary); 
+  font-weight: 500;
+  text-decoration: none;
+  position: relative;
+  padding-bottom: 2px;
+  transition: color 0.2s ease;
+}
+.site-footer a::after{
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 0;
+  height: 2px;
+  background: var(--brand-primary);
+  transition: width 0.2s ease;
+}
+.site-footer a:hover{ 
+  color: var(--brand-primary-dark);
+}
+.site-footer a:hover::after{
+  width: 100%;
+}
+
+/* Chat widget header tint */
+.chat-header{
+  background: linear-gradient(90deg, var(--brand-primary) 0%, var(--primary-light) 100%);
+  border-bottom: none;
+  color: #ffffff;
+  padding: 1rem;
+}
+.chat-mode-select{
+  background: rgba(255,255,255,0.2);
+  color: white;
+  border: 1px solid rgba(255,255,255,0.3);
+  border-radius: 6px;
+  padding: 0.25rem 0.5rem;
+  font-weight: 500;
+}
+
+/* User avatar menu */
+.user-avatar{
+  background: var(--brand-primary);
+  color: white;
+  border: 2px solid var(--primary-light);
+  transition: all 0.2s ease;
+}
+.user-avatar:hover{
+  background: var(--brand-primary-dark);
+  transform: scale(1.05);
+}
+
+/* Badges y elementos especiales */
+.badge{
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  border-radius: 999px;
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+.badge-primary{
+  background: var(--brand-primary);
+  color: white;
+}
+.badge-secondary{
+  background: var(--brand-secondary);
+  color: white;
+}
+.badge-accent{
+  background: var(--brand-accent);
+  color: white;
+}
+
+/* Enlaces generales - sin subrayado, aparece en hover */
+a{
+  text-decoration: none;
+  position: relative;
+  transition: color 0.2s ease;
+}
+
+/* Enlaces con efecto de subrayado animado */
+p a, .auth-links a, .auth-card a{
+  color: var(--brand-primary);
+  padding-bottom: 2px;
+  display: inline-block;
+}
+p a::after, .auth-links a::after, .auth-card a::after{
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 0;
+  height: 2px;
+  background: var(--brand-primary);
+  transition: width 0.2s ease;
+}
+p a:hover, .auth-links a:hover, .auth-card a:hover{
+  color: var(--brand-primary-dark);
+}
+p a:hover::after, .auth-links a:hover::after, .auth-card a:hover::after{
+  width: 100%;
+}

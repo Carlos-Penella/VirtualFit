@@ -3,11 +3,12 @@
 @section('title','Chat con '.$usuario->nombre)
 
 @section('content')
-    <h2>Chat con {{ $usuario->nombre }}</h2>
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem;">
+        <h2 style="margin:0;">Chat con {{ $usuario->nombre }}</h2>
+        <a href="{{ route('trainer.panel') }}" class="btn-secondary">← Volver al panel</a>
+    </div>
 
-    <p class="muted">Vista de conversación similar a WhatsApp: mensajes del usuario a la izquierda, respuestas del entrenador a la derecha.</p>
-
-    <div class="card" style="max-height:480px;overflow-y:auto;display:flex;flex-direction:column;gap:.4rem;">
+    <div class="card" style="max-height:520px;overflow-y:auto;display:flex;flex-direction:column;gap:.4rem;">
         @forelse($mensajes as $m)
             <div style="display:flex;flex-direction:column;align-items:flex-start;margin-bottom:.35rem;">
                 <div class="chat-message bot" style="max-width:70%;align-self:flex-start;">
@@ -24,10 +25,12 @@
                     </div>
                 @else
                     @if(auth()->user()->tipo_usuario === 'ENTRENADOR')
-                        <form method="post" action="{{ route('trainer.responder', $m->id) }}" style="align-self:flex-end;margin-top:.25rem;width:70%;">
+                        <form method="post" action="{{ route('trainer.responder', $m->id) }}" class="contact-form" style="align-self:flex-end;margin-top:.5rem;width:70%;">
                             @csrf
-                            <textarea name="respuesta_entrenador" rows="2" placeholder="Escribe tu respuesta" required style="width:100%;"></textarea>
-                            <button type="submit" class="btn" style="margin-top:.25rem;float:right;">Enviar</button>
+                            <label style="margin-bottom:0.5rem;">
+                                <textarea name="respuesta_entrenador" rows="3" placeholder="Escribe tu respuesta..." required style="width:100%;resize:vertical;"></textarea>
+                            </label>
+                            <button type="submit" class="btn" style="float:right;">Enviar respuesta</button>
                         </form>
                     @endif
                 @endif
